@@ -7,9 +7,11 @@ interface FlyingBirdProps {
   flip?: boolean;
   duration?: number;
   delay?: number;
+  startY?: number;
+  endY?: number;
 }
 
-function FlyingBird({ flip = false, duration = 6, delay = 0 }: FlyingBirdProps) {
+function FlyingBird({ flip = false, duration = 6, delay = 0, startY = 0.8, endY = 0.2 }: FlyingBirdProps) {
   const [windowSize, setWindowSize] = useState<{ width: number; height: number } | null>(null);
 
   useEffect(() => {
@@ -24,24 +26,29 @@ function FlyingBird({ flip = false, duration = 6, delay = 0 }: FlyingBirdProps) 
 
   if (!windowSize) return null;
 
+  // Scale bird size based on screen width
+  const scale = windowSize.width < 640 ? 0.5 : windowSize.width < 1024 ? 0.75 : 1;
+  const birdWidth = 129 * scale;
+  const birdHeight = 55 * scale;
+
   return (
     <motion.div
       style={{ position: 'absolute', top: 0, left: 0 }}
       initial={{
         x: flip ? windowSize.width + 50 : -150,
-        y: windowSize.height * 0.8,
+        y: windowSize.height * startY,
         opacity: 1,
       }}
       animate={{
         x: flip ? -150 : windowSize.width + 50,
-        y: windowSize.height * 0.2,
+        y: windowSize.height * endY,
         opacity: 1,
       }}
       transition={{ duration, ease: 'linear', delay, repeat: 0 }}
     >
       <svg
-        width="129"
-        height="55"
+        width={birdWidth}
+        height={birdHeight}
         viewBox="0 0 129 55"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -92,8 +99,10 @@ export function FlyingBirdAnimation() {
       className="fixed inset-0 pointer-events-none overflow-hidden z-30"
       aria-hidden="true"
     >
-      <FlyingBird duration={3} delay={2} />
-      <FlyingBird flip duration={3} delay={2} />
+      {/* Left bird: flies from bottom-left to top-right (lower path) */}
+      <FlyingBird duration={3} delay={2} startY={0.75} endY={0.35} />
+      {/* Right bird: flies from bottom-right to top-left (upper path) */}
+      <FlyingBird flip duration={3} delay={2} startY={0.65} endY={0.25} />
     </div>
   );
 }
