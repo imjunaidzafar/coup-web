@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FlyingBirdProps {
   flip?: boolean;
@@ -10,19 +10,19 @@ interface FlyingBirdProps {
 }
 
 function FlyingBird({ flip = false, duration = 6, delay = 0 }: FlyingBirdProps) {
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-
-  const handleResize = useCallback(() => {
-    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
+  const [windowSize, setWindowSize] = useState<{ width: number; height: number } | null>(null);
 
   useEffect(() => {
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [handleResize]);
+    const updateSize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
 
-  if (windowSize.width === 0) return null;
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  if (!windowSize) return null;
 
   return (
     <motion.div
