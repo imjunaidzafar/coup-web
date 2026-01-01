@@ -1,14 +1,4 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-
 export function BirdIllustration() {
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
   return (
     <div
       className="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -20,9 +10,7 @@ export function BirdIllustration() {
         viewBox="0 0 1408 720"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={`transition-transform duration-1000 ease-out ${
-          isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-96 opacity-0'
-        }`}
+        className="animate-rise"
       >
         {/* Bird 1 - Top left small */}
         <path
