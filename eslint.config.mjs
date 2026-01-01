@@ -1,23 +1,24 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { FlatCompat } from '@eslint/eslintrc';
+import nextConfig from 'eslint-config-next';
+import coreWebVitals from 'eslint-config-next/core-web-vitals';
+import typescript from 'eslint-config-next/typescript';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
+/** @type {import('eslint').Linter.Config[]} */
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  ...nextConfig,
+  ...coreWebVitals,
+  ...typescript,
+  {
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'out/**',
+      'public/**',
+    ],
+  },
   {
     rules: {
-      // Customize rules as needed
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
-      ],
+      // Allow setState in effects for client-side initialization patterns
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
 ];
