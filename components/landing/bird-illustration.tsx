@@ -1,27 +1,52 @@
+'use client';
+
 // Small bird SVG (no chat bubble) - for top area
+// Dark bird rises from below (from clouds) and settles into position
 function SmallBird({ flip = false }: { flip?: boolean }) {
+  const birdPath = "M0.184547 0.00157207C1.3409 0.0785971 9.20524 1.31197 13.0604 2.23725C16.9155 3.16252 20.9247 8.48212 21.85 8.71319C22.7753 8.94427 27.2466 8.4051 31.1018 8.09602C34.9569 7.78792 42.3582 12.0282 42.3582 12.0282C42.3582 13.6477 34.8789 11.18 32.2581 11.0259C29.6364 10.8719 25.5501 11.7201 24.7019 12.4133C23.8536 13.1075 22.2351 14.0328 20.8467 13.9558C19.4593 13.8788 15.5271 11.1029 15.141 10.5638C14.7549 10.0236 16.7605 9.79251 16.7605 9.79251C16.7605 9.79251 16.7605 9.79253 14.91 7.47983C13.0594 5.16713 8.97319 4.0878 6.27439 3.3936C3.57754 2.70038 -0.971803 -0.0754529 0.184547 0.00157207Z";
+
   return (
-    <svg
-      width="42"
-      height="14"
-      viewBox="0 0 42 14"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ transform: flip ? 'scaleX(-1)' : undefined }}
-      aria-hidden="true"
-    >
-      <path
-        d="M0.184547 0.00157207C1.3409 0.0785971 9.20524 1.31197 13.0604 2.23725C16.9155 3.16252 20.9247 8.48212 21.85 8.71319C22.7753 8.94427 27.2466 8.4051 31.1018 8.09602C34.9569 7.78792 42.3582 12.0282 42.3582 12.0282C42.3582 13.6477 34.8789 11.18 32.2581 11.0259C29.6364 10.8719 25.5501 11.7201 24.7019 12.4133C23.8536 13.1075 22.2351 14.0328 20.8467 13.9558C19.4593 13.8788 15.5271 11.1029 15.141 10.5638C14.7549 10.0236 16.7605 9.79251 16.7605 9.79251C16.7605 9.79251 16.7605 9.79253 14.91 7.47983C13.0594 5.16713 8.97319 4.0878 6.27439 3.3936C3.57754 2.70038 -0.971803 -0.0754529 0.184547 0.00157207Z"
-        fill="#00336B"
-      />
-    </svg>
+    <div className="relative overflow-visible" style={{ transform: flip ? 'scaleX(-1)' : undefined }}>
+      {/* Light base bird - always visible */}
+      <svg
+        width="42"
+        height="14"
+        viewBox="0 0 42 14"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path d={birdPath} fill="#9DB8D4" />
+      </svg>
+      {/* Dark bird - rises from bottom (clouds) to overlay the light bird */}
+      <div className="absolute inset-0 overflow-visible">
+        <svg
+          width="42"
+          height="14"
+          viewBox="0 0 42 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="animate-bird-rise"
+          aria-hidden="true"
+        >
+          <path d={birdPath} fill="#00336B" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
 // Scroll indicator component
 function ScrollIndicator() {
+  const handleScroll = () => {
+    window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' });
+  };
+
   return (
-    <div className="absolute bottom-[60px] sm:bottom-[70px] md:bottom-[80px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-50 animate-rise">
+    <button
+      onClick={handleScroll}
+      className="absolute bottom-[100px] sm:bottom-[115px] md:bottom-[130px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-50 animate-rise cursor-pointer pointer-events-auto"
+    >
       <span className="text-foreground text-sm md:text-base font-medium">Scroll to learn more</span>
       <svg
         width="20"
@@ -34,42 +59,42 @@ function ScrollIndicator() {
         strokeLinejoin="round"
         className="text-foreground"
       >
-        {/* Horizontal line at top */}
-        <path d="M6 1h8" />
         {/* Vertical line */}
-        <path d="M10 1v18" />
-        {/* V-shaped arrow head */}
-        <path d="M4 20l6 6 6-6" />
+        <path d="M10 1v16" />
+        {/* Horizontal line above arrow */}
+        <path d="M6 17h8" />
+        {/* V-shaped arrow head attached to vertical line */}
+        <path d="M4 17l6 8 6-8" />
       </svg>
-    </div>
+    </button>
   );
 }
 
 export function BirdIllustration() {
   return (
     <div
-      className="absolute inset-0 pointer-events-none overflow-hidden"
+      className="absolute inset-0 pointer-events-none"
       aria-hidden="true"
     >
       {/* ===== TOP SMALL BIRDS - positioned at edges on small screens ===== */}
 
       {/* Bird 1 - Left side, level with "iMessage" */}
-      <div className="absolute left-[2%] sm:left-[5%] md:left-[10%] top-[120px] sm:top-[140px] md:top-[160px] lg:top-[180px] animate-rise-bird">
+      <div className="absolute left-[2%] sm:left-[5%] md:left-[10%] top-[120px] sm:top-[140px] md:top-[160px] lg:top-[180px]">
         <SmallBird />
       </div>
 
       {/* Bird 2 - Left side, lower, level with "for Teams" */}
-      <div className="absolute left-[1%] sm:left-[8%] md:left-[22%] top-[200px] sm:top-[220px] md:top-[230px] lg:top-[250px] animate-rise-bird">
+      <div className="absolute left-[1%] sm:left-[8%] md:left-[22%] top-[200px] sm:top-[220px] md:top-[230px] lg:top-[250px]">
         <SmallBird />
       </div>
 
       {/* Bird 3 - Right side, level with "iMessage" */}
-      <div className="absolute right-[2%] sm:right-[6%] md:right-[20%] top-[100px] sm:top-[120px] md:top-[160px] lg:top-[190px] animate-rise-bird">
+      <div className="absolute right-[2%] sm:right-[6%] md:right-[20%] top-[100px] sm:top-[120px] md:top-[160px] lg:top-[190px]">
         <SmallBird />
       </div>
 
       {/* Bird 4 - Right side, lower, level with "Workflows" */}
-      <div className="absolute right-[1%] sm:right-[5%] md:right-[17%] top-[260px] sm:top-[280px] md:top-[300px] lg:top-[340px] animate-rise-bird">
+      <div className="absolute right-[1%] sm:right-[5%] md:right-[17%] top-[260px] sm:top-[280px] md:top-[300px] lg:top-[340px]">
         <SmallBird />
       </div>
 
