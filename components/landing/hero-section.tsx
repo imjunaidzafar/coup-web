@@ -20,18 +20,18 @@ export function HeroSection() {
         </h1>
 
         {/* Subheadline */}
-        <p className="mt-5 text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="mt-5 text-lg text-gray-600 max-w-2xl mx-auto">
           Coup lets you, your team, or AI workflows send iMessages directly from
           your phone number, running securely on your Mac or Mac Mini.
         </p>
 
         {/* CTA Buttons */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button size="lg">Get Started</Button>
+          <Button size="lg" disableHover>Get Started</Button>
 
           <a
             href="#download"
-            className="flex items-center gap-2 px-5 py-2.5 border border-foreground rounded-full text-foreground text-base font-semibold hover:bg-foreground hover:text-white transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 border border-foreground rounded-full text-foreground text-base font-semibold"
             aria-label="Download Mac App"
           >
             <AppleIcon className="w-5 h-5" />
