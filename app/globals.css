@@ -53,11 +53,11 @@ html {
   animation: rise 1.5s ease-out forwards;
 }
 
-/* Animation for small birds - rise from lower position */
-@keyframes rise-bird {
+/* Animation for small birds - dark bird rises from bottom (clouds) to overlay light bird */
+@keyframes bird-rise-from-clouds {
   0% {
-    transform: translateY(400px);
-    opacity: 0;
+    transform: translateY(700px);
+    opacity: 1;
   }
   100% {
     transform: translateY(0);
@@ -65,8 +65,10 @@ html {
   }
 }
 
-.animate-rise-bird {
-  animation: rise-bird 1.5s ease-out forwards;
+.animate-bird-rise {
+  transform: translateY(700px);
+  animation: bird-rise-from-clouds 1.5s ease-out forwards;
+  animation-delay: 0.5s;
 }
 
 /* Smooth scrolling */
